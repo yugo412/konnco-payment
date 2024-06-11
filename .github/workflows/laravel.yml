@@ -33,7 +33,7 @@ jobs:
         run: php artisan key:generate
 
       - name: Run Migration and Seeder
-        run: php artisan migrate --seed
+        run: php artisan migrate
 
       - name: Directory Permissions
         run: chmod -R 777 storage bootstrap/cache
