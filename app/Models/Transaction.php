@@ -78,6 +78,9 @@ class Transaction extends Model
                 return $builder->orderByDesc('created_at');
             })
             ->when(empty($filters['sort']), fn (Builder $builder): Builder => $builder->orderBy('created_at'))
+            ->when(! empty($filters['status']), function (Builder $builder) use ($filters): Builder {
+                return $builder->where('status', TransactionStatus::from($filters['status']));
+            })
             ->paginate($filters['limit'] ?? 10);
     }
 
