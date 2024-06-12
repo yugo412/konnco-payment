@@ -19,7 +19,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::prefix('v1')->group(function (): void {
+Route::prefix('v1')->middleware(['auth:api', 'throttle:60,1'])->group(function (): void {
     Route::get('payment/summary', [PaymentController::class, 'summary']);
     Route::apiResource('payment', PaymentController::class);
 });

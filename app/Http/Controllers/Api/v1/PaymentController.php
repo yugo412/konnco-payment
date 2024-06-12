@@ -29,7 +29,7 @@ class PaymentController extends Controller
      */
     public function store(CreateRequest $request)
     {
-        $user = User::factory()->create();
+        $user = $request->user();
         abort_if(empty($user), Response::HTTP_NOT_FOUND, __('User not found.'));
 
         ProcessPaymentJob::dispatch(
