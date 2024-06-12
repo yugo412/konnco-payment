@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Request\Api\v1;
 
+use App\Models\Enums\TransactionStatus;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class IndexRequest extends FormRequest
 {
@@ -23,9 +25,14 @@ class IndexRequest extends FormRequest
     {
         return [
             'sort' => ['alpha_dash:ascii', 'nullable'],
+            'status' => [
+                'nullable',
+                Rule::in(
+                    array_map(fn (TransactionStatus $status): string => $status->value, TransactionStatus::cases())
+                ),
+            ],
             'limit' => ['integer', 'min:1', 'max:100'],
             'page' => ['integer', 'min:1'],
-
         ];
     }
 }
