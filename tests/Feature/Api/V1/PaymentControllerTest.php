@@ -145,10 +145,6 @@ it('calculates summary for all transactions', function (): void {
             && $transaction->amount === $maxAmount;
     });
 
-//    dd($minAmount, $transactions->map(function (Transaction $transaction): float {
-//        return $transaction->amount;
-//    }));
-
     $lowest = $transactions->firstWhere(function (Transaction $transaction) use ($minAmount): bool {
         return $transaction->status === TransactionStatus::Completed
             && $transaction->amount === $minAmount;
