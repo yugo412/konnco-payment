@@ -125,7 +125,7 @@ it('calculates summary for all transactions', function (): void {
     // clean table before make a calculation for summary
     Transaction::query()->truncate();
 
-    $transactions = Transaction::factory($count = 2)
+    $transactions = Transaction::factory($count = 4)
         ->for($this->user)
         ->create([
             'status' => TransactionStatus::Completed,
@@ -142,12 +142,16 @@ it('calculates summary for all transactions', function (): void {
 
     $highest = $transactions->firstWhere(function (Transaction $transaction) use ($maxAmount): bool {
         return $transaction->status === TransactionStatus::Completed
-            && $transaction->amount >= $maxAmount;
+            && $transaction->amount === $maxAmount;
     });
+
+//    dd($minAmount, $transactions->map(function (Transaction $transaction): float {
+//        return $transaction->amount;
+//    }));
 
     $lowest = $transactions->firstWhere(function (Transaction $transaction) use ($minAmount): bool {
         return $transaction->status === TransactionStatus::Completed
-            && $transaction->amount >= $minAmount;
+            && $transaction->amount === $minAmount;
     });
 
     $maxName = $transactions->max(fn(Transaction $transaction): int => strlen($transaction->user->name));
